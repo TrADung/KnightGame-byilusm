@@ -32,28 +32,29 @@ canvas {
 #mobile-controls {
     position: fixed;
     bottom: 20px;
-    width: 100%;
-    display: flex;
+    left: 0;
+    right: 0;
+    display: none;
     justify-content: space-between;
+    padding: 0 20px;
     pointer-events: none;
 }
 
 #left-right, #jump-attack {
     display: flex;
-    gap: 10px;
+    gap: 20px;
     pointer-events: auto;
 }
 
 .control-btn {
-    display: none; /* Ẩn mặc định trên desktop */
-    position: fixed;
-    width: 60px;
-    height: 60px;
+    width: 70px;
+    height: 70px;
     background: rgba(255, 255, 255, 0.3);
     border: none;
     border-radius: 50%;
     color: white;
-    font-size: 24px;
+    font-size: 30px;
+    display: flex;
     justify-content: center;
     align-items: center;
     cursor: pointer;
@@ -70,7 +71,7 @@ canvas {
 
 /* Media query cho điện thoại */
 @media (max-width: 768px) {
-    .control-btn {
+    #mobile-controls {
         display: flex;
     }
 
@@ -79,7 +80,11 @@ canvas {
         .control-btn {
             width: 50px;
             height: 50px;
-            font-size: 20px;
+            font-size: 24px;
+        }
+        
+        #mobile-controls {
+            bottom: 10px;
         }
     }
 }

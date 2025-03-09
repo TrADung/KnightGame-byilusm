@@ -34,10 +34,16 @@
 </head>
 <body>
     <canvas id="gameCanvas"></canvas>
-    <button id="btn-left" class="control-btn">←</button>
-    <button id="btn-right" class="control-btn">→</button>
-    <button id="btn-jump" class="control-btn">↑</button>
-    <button id="btn-attack" class="control-btn">⚔️</button>
+    <div id="mobile-controls">
+        <div id="left-right">
+            <button id="btn-left" class="control-btn">⬅️</button>
+            <button id="btn-right" class="control-btn">➡️</button>
+        </div>
+        <div id="jump-attack">
+            <button id="btn-jump" class="control-btn">⬆️</button>
+            <button id="btn-attack" class="control-btn">⚔️</button>
+        </div>
+    </div>
     <script src="script.js"></script>
 </body>
 </html>
