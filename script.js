@@ -1,9 +1,68 @@
 // Lấy thẻ canvas và thiết lập ngữ cảnh vẽ
 const canvas = document.getElementById("gameCanvas");
 const ctx = canvas.getContext("2d");
-// Thiết lập kích thước canvas theo cửa sổ
-canvas.width = window.innerWidth;
-canvas.height = window.innerHeight;
+
+// Hàm điều chỉnh kích thước canvas
+function resizeCanvas() {
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+    // Điều chỉnh vị trí nhân vật và các đối tượng khác khi resize
+    knightY = canvas.height - 250;
+    princessY = canvas.height - 250;
+}
+
+// Thiết lập kích thước canvas ban đầu
+resizeCanvas();
+
+// Xử lý sự kiện resize và orientation change
+window.addEventListener('resize', resizeCanvas);
+window.addEventListener('orientationchange', () => {
+    setTimeout(resizeCanvas, 100); // Đợi một chút để màn hình cập nhật xong
+});
+
+// Điều chỉnh vị trí nút điều khiển trên mobile
+function adjustMobileControls() {
+    const isMobile = window.innerWidth <= 768;
+    const controls = document.querySelectorAll('.control-btn');
+    
+    controls.forEach(btn => {
+        if (isMobile) {
+            btn.style.display = 'flex';
+            btn.style.position = 'fixed';
+            btn.style.zIndex = '1000';
+            btn.style.margin = '10px';
+        } else {
+            btn.style.display = 'none';
+        }
+    });
+
+    // Điều chỉnh vị trí các nút
+    const btnLeft = document.getElementById('btn-left');
+    const btnRight = document.getElementById('btn-right');
+    const btnJump = document.getElementById('btn-jump');
+    const btnAttack = document.getElementById('btn-attack');
+
+    if (isMobile) {
+        // Vị trí nút di chuyển (bên trái màn hình)
+        btnLeft.style.bottom = '20px';
+        btnLeft.style.left = '20px';
+        btnRight.style.bottom = '20px';
+        btnRight.style.left = '120px';
+
+        // Vị trí nút hành động (bên phải màn hình)
+        btnJump.style.bottom = '20px';
+        btnJump.style.right = '120px';
+        btnAttack.style.bottom = '20px';
+        btnAttack.style.right = '20px';
+    }
+}
+
+// Gọi hàm điều chỉnh controls khi load và resize
+window.addEventListener('load', adjustMobileControls);
+window.addEventListener('resize', adjustMobileControls);
+window.addEventListener('orientationchange', () => {
+    setTimeout(adjustMobileControls, 100);
+});
 
 // Load hình ảnh với xử lý lỗi
 function loadImage(src) {
