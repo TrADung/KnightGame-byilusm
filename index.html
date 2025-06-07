@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Knight Game</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            background-color: #333;
+        }
+        canvas {
+            border: 2px solid white;
+            background-color: #000;
+        }
+        #gameOverScreen {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: rgba(0, 0, 0, 0.8);
+            color: white;
+            padding: 20px;
+            text-align: center;
+            border-radius: 10px;
+            display: none;
+        }
+        #gameOverScreen h1 {
+            margin-bottom: 20px;
+        }
+        #gameOverScreen button {
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 5px;
+        }
+        #gameOverScreen button:hover {
+            background-color: #45a049;
+        }
+    </style>
+</head>
+<body>
+    <canvas id="gameCanvas" width="800" height="400"></canvas>
+    <script src="script.js"></script>
+</body>
+</html> 

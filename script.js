@@ -1,4 +1,3 @@
-
 // Lấy canvas và thiết lập context
 const canvas = document.getElementById("gameCanvas");
 const ctx = canvas.getContext("2d");
@@ -13,14 +12,11 @@ let isJumping = false;
 let velocityY = 0;
 const gravity = 0.5;
 
-// Ảnh của hiệp sĩ
-const knightImages = {
-    idle: "pic/character/knight_idle.png",
-    run: "pic/character/knight_run.png",
-    attack: "pic/character/knight_attack.png",
-};
-let currentImage = new Image();
-currentImage.src = knightImages.idle;
+// Vẽ hiệp sĩ
+function drawKnight() {
+    ctx.fillStyle = "blue";
+    ctx.fillRect(knightX, knightY, knightWidth, knightHeight);
+}
 
 // Điều khiển nhân vật
 let keys = {};
@@ -31,12 +27,8 @@ document.addEventListener("keyup", (event) => keys[event.key] = false);
 function updateKnight() {
     if (keys["a"] && knightX > 0) {
         knightX -= 5;
-        currentImage.src = knightImages.run;
     } else if (keys["d"] && knightX + knightWidth < canvas.width) {
         knightX += 5;
-        currentImage.src = knightImages.run;
-    } else {
-        currentImage.src = knightImages.idle;
     }
 
     if (keys[" "] && !isJumping) {
@@ -106,14 +98,17 @@ setInterval(spawnEnemy, 3000);
 let princessAppears = false;
 let princessX = -120;
 
-// Vẽ nhân vật
-function drawKnight() {
-    ctx.drawImage(currentImage, knightX, knightY, knightWidth, knightHeight);
-}
-
 // Cập nhật trò chơi
 function updateGame() {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+    // Vẽ nền
+    ctx.fillStyle = "#333";
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+    // Vẽ mặt đất
+    ctx.fillStyle = "#666";
+    ctx.fillRect(0, canvas.height - 150, canvas.width, 150);
 
     updateKnight();
     drawKnight();
@@ -122,6 +117,12 @@ function updateGame() {
         enemy.move();
         enemy.draw();
     });
+
+    // Vẽ thanh máu
+    ctx.fillStyle = "red";
+    ctx.fillRect(10, 10, 200, 20);
+    ctx.fillStyle = "green";
+    ctx.fillRect(10, 10, knightHP * 2, 20);
 
     if (knightHP <= 0) {
         gameOver = true;
@@ -135,6 +136,7 @@ let gameOver = false;
 function showGameOverScreen() {
     let gameOverScreen = document.createElement("div");
     gameOverScreen.id = "gameOverScreen";
+    gameOverScreen.style.display = "block";
     gameOverScreen.innerHTML = "<h1>Game Over</h1><button onclick='restartGame()'>Chơi lại</button>";
     document.body.appendChild(gameOverScreen);
 }
