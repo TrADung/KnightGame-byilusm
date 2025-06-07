@@ -203,4 +203,4 @@ window.addEventListener("load", () => {
     console.log("Trang đã tải xong");
     checkOrientation();
     updateGame();
-});
+}); 
