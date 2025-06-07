@@ -1,0 +1,14 @@
+I. Phân Tích
+	1. Header
+	2. Slider
+	3. Content
+	   - About
+	   - Tour
+	   - Contact
+         - Image
+	   - Footer
+	4. Footer
+II. Dựng Base	
+III. Xây dựng từng phần theo phân tích
+IV. Hoàn thiện
+	

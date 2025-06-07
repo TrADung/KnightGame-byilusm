@@ -1,0 +1,96 @@
+body {
+  background-color: #E6D5C3; /* be */
+  font-family: 'Arial', sans-serif;
+  color: #4E342E; /* nâu */
+}
+
+.star-rating .star.filled {
+  color: #4E342E; /* nâu */
+}
+
+.star-rating .star.empty {
+  color: #E6D5C3; /* be */
+}
+
+.popup {
+  display: none;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%) scale(0.7);
+  background: #fff8ee; /* be rất nhạt */
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 4px 20px rgba(78, 52, 46, 0.15); /* nâu nhạt */
+  z-index: 1000;
+  max-width: 90%;
+  max-height: 90vh;
+  overflow-y: auto;
+  transition: all 0.3s ease;
+}
+
+.popup.active {
+  display: block;
+  transform: translate(-50%, -50%) scale(1);
+}
+
+.popup .close-btn {
+  position: absolute;
+  top: 10px;
+  right: 16px;
+  background: none;
+  border: none;
+  font-size: 1.5rem;
+  color: #4E342E;
+  cursor: pointer;
+  z-index: 10;
+  transition: color 0.2s;
+}
+
+.popup .close-btn:hover {
+  color: #a67c52;
+}
+
+.overlay {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(78, 52, 46, 0.3); /* nâu mờ */
+  z-index: 999;
+}
+
+.overlay.active {
+  display: block;
+}
+
+.certificate:hover, .project:hover {
+  transform: scale(1.05);
+  transition: transform 0.3s ease;
+  background-color: #E6D5C3; /* be khi hover */
+  box-shadow: 0 2px 8px rgba(78, 52, 46, 0.12);
+}
+
+.timeline-item:hover {
+  background-color: #E6D5C3; /* be khi hover */
+  transform: translateX(10px);
+  transition: all 0.3s ease;
+  box-shadow: 0 2px 8px rgba(78, 52, 46, 0.12);
+}
+
+.certificate img {
+  display: block;
+  margin: 0 auto;
+  width: 80px;
+  height: 80px;
+  object-fit: contain;
+  border-radius: 8px;
+  background: #fff;
+  box-shadow: 0 1px 4px rgba(78,52,46,0.08);
+}
+
+.certificate {
+  overflow: hidden;
+}

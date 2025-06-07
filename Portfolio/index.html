@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Personal CV</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body class="bg-[#E6D5C3] text-[#4E342E]">
+  <!-- Header -->
+  <header class="bg-[#4E342E] text-white py-6">
+    <div class="container mx-auto px-4 flex flex-col md:flex-row items-center justify-between">
+      <div class="flex items-center space-x-4">
+        <img src="Picture/logo ad.png" alt="Personal Logo" class="w-16 h-16 rounded-full">
+        <div>
+          <h1 class="text-3xl font-bold">Trần Anh Dũng</h1>
+          <p>Age: 18 | DOB: October 11, 2006</p>
+          <p>Location: Da Nang, Vietnam</p> 
+        </div>
+      </div>
+      <img src="Picture/TranAnhDung.png" alt="Profile Picture" class="w-24 h-24 rounded-full mt-4 md:mt-0">
+    </div>
+  </header>
+
+  <!-- Body -->
+  <main class="container mx-auto px-4 py-8">
+    <!-- Knowledge Section -->
+    <section class="mb-12">
+      <h2 class="text-2xl font-semibold text-[#4E342E] mb-4">Knowledge</h2>
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <div>
+            <p>OOP C++: <span class="star-rating">
+            <span class="star filled">★</span><span class="star filled">★</span><span class="star filled">★</span><span class="star filled">★</span><span class="star empty">★</span>
+            </span></p>
+
+            <p>Python: <span class="star-rating">
+            <span class="star filled">★</span><span class="star filled">★</span><span class="star filled">★</span><span class="star empty">★</span><span class="star empty">★</span>
+            </span></p>
+
+            <p>JavaScript: <span class="star-rating">
+            <span class="star filled">★</span><span class="star filled">★</span><span class="star empty">★</span><span class="star empty">★</span><span class="star empty">★</span>
+            </span></p>
+
+            <p>HTML/CSS: <span class="star-rating">
+            <span class="star filled">★</span><span class="star filled">★</span><span class="star filled">★</span><span class="star empty">★</span><span class="star empty">★</span>
+            </span></p>
+          
+        </div>
+      </div>
+      <div class="mt-6">
+        <h3 class="text-xl font-semibold text-[#4E342E] mb-2">GitHub Projects</h3>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+          <a href="https://tradung.github.io/TinhDiemHocPhan/" target="_blank" class="project bg-[#E6D5C3] p-4 rounded-lg shadow hover:bg-[#4E342E] hover:text-[#E6D5C3]">
+            <h4 class="font-semibold">Project 1</h4>
+            <p>A cyber security tool built with Python.</p>
+          </a>
+          <a href="https://github.com/your-username/project2" target="_blank" class="project bg-[#E6D5C3] p-4 rounded-lg shadow hover:bg-[#4E342E] hover:text-[#E6D5C3]">
+            <h4 class="font-semibold">Project 2</h4>
+            <p>Web application for data analysis.</p>
+          </a>
+          <a href="https://github.com/your-username" target="_blank" class="project bg-[#E6D5C3] p-4 rounded-lg shadow hover:bg-[#4E342E] hover:text-[#E6D5C3]">
+            <h4 class="font-semibold">More Projects</h4>
+            <p>Explore my GitHub for more.</p>
+          </a>
+        </div>
+      </div>
+      <div class="mt-8 relative">
+        <h3 class="text-xl font-semibold text-[#4E342E] mb-2">Education</h3>
+        <div class="relative w-full h-40 bg-cover bg-center rounded-lg" style="background-image: url('Picture/DuyTanUni.png');">
+          <div class="absolute inset-0 bg-black bg-opacity-50 flex items-center justify-center">
+            <div class="text-white text-center">
+              <h4 class="text-lg font-bold">Duy Tan University, International School</h4>
+              <p>Major: Cyber Security CMU</p>
+              <p>Date: 2024 - 2028</p>
+              <button onclick="showPopup('educationPopup')" class="mt-2 bg-brown-500 text-white px-4 py-2 rounded hover:bg-brown-600">Details</button>
+            </div>
+          </div>
+        </div>
+        <div id="educationPopup" class="popup">
+          <button onclick="hidePopup('educationPopup')" style="position:absolute;top:10px;right:10px;background:none;border:none;font-size:1.5rem;color:#4E342E;cursor:pointer;" aria-label="Close">&times;</button>
+          <h3 class="text-xl font-semibold mb-2">Education Details</h3>
+          <img src="https://via.placeholder.com/300" alt="Diploma" class="w-full max-w-xs mx-auto">
+          <p class="mt-2">Bachelor's Degree in Cyber Security, expected graduation: 2028.</p>
+          <button onclick="hidePopup('educationPopup')" class="mt-4 bg-brown-500 text-white px-4 py-2 rounded hover:bg-brown-600">Close</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- Certificates Section -->
+    <section class="mb-12">
+      <h2 class="text-2xl font-semibold text-[#4E342E] mb-4">Certificates</h2>
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+        <div class="certificate bg-[#E6D5C3] p-4 rounded-lg shadow relative">
+          <img src="Picture/Coursera.png" alt="Google Cyber Security" class="w-16 h-16 mx-auto">
+          <p class="text-center mt-2">Google Cyber Security</p>
+        </div>
+        <div class="certificate bg-[#E6D5C3] p-4 rounded-lg shadow relative">
+          <img src="Picture/toeic.png" alt="TOEIC" class="w-16 h-16 mx-auto">
+          <p class="text-center mt-2">TOEIC</p>
+        </div>
+        <div class="certificate bg-[#E6D5C3] p-4 rounded-lg shadow relative">
+          <img src="Picture/mos.png" alt="MOS" class="w-16 h-16 mx-auto">
+          <p class="text-center mt-2">MOS</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Work Experience Section -->
+    <section class="mb-12">
+      <h2 class="text-2xl font-semibold text-[#4E342E] mb-4">Work Experience</h2>
+      <div class="relative border-l-4 border-[#4E342E] pl-6">
+        <div class="timeline-item mb-6 pl-4">
+          <h4 class="font-semibold"><a href="https://company1.com" target="_blank" class="text-brown-500 hover:underline">Cyber Security Intern - Company A</a></h4>
+          <p class="text-sm text-gray-600">June 2024 - August 2024</p>
+          <p>Developed security protocols and conducted penetration testing.</p>
+        </div>
+        <div class="timeline-item mb-6 pl-4">
+          <h4 class="font-semibold"><a href="https://company2.com" target="_blank" class="text-brown-500 hover:underline">Junior Developer - Company B</a></h4>
+          <p class="text-sm text-gray-600">September 2024 - Present</p>
+          <p>Contributed to web application development and maintenance.</p>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- Footer -->
+  <footer class="bg-[#4E342E] text-[#E6D5C3] py-6">
+    <div class="container mx-auto px-4 text-center">
+      <h3 class="text-xl font-semibold mb-2">Contact</h3>
+      <div class="flex justify-center space-x-4">
+        <a href="https://linkedin.com/in/your-profile" target="_blank" class="hover:text-white">LinkedIn</a>
+        <a href="mailto:your.email@example.com" class="hover:text-white">Email</a>
+        <a href="tel:+1234567890" class="hover:text-white">Phone</a>
+        <a href="https://facebook.com/your-profile" target="_blank" class="hover:text-white">Facebook</a>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Overlay for Popups -->
+  <div class="overlay" id="overlay"></div>
+  <div class="popup" id="cert1Popup">
+    <h3 class="text-lg font-semibold">Google Cyber Security Certificate</h3>
+    <img src="Picture/Coursera_Cert.png" alt="Certificate" class="w-32 mx-auto">
+    <p>Issued: June 2024</p>
+    <p>Score: 95/100</p>
+    <button onclick="hidePopup('cert1Popup')" class="mt-4 bg-brown-500 text-white px-4 py-2 rounded hover:bg-brown-600">Close</button>
+  </div>
+  <div class="popup" id="cert2Popup">
+    <h3 class="text-lg font-semibold">TOEIC Certificate</h3>
+    <img src="Picture/Toeic_Cert.png" alt="Certificate" class="w-32 mx-auto">
+    <p>Issued: March 2024</p>
+    <p>Score: 850/990</p>
+    <button onclick="hidePopup('cert2Popup')" class="mt-4 bg-brown-500 text-white px-4 py-2 rounded hover:bg-brown-600">Close</button>
+  </div>
+  <div class="popup" id="cert3Popup">
+    <h3 class="text-lg font-semibold">Microsoft Office Specialist</h3>
+    <img src="Picture/MOS_Cert.png" alt="Certificate" class="w-32 mx-auto">
+    <p>Issued: January 2024</p>
+    <p>Score: </p>
+    <p>- Word: 1000/1000 </p>
+    <p>- Excel: 1000/1000 </p>
+    <p>- PowerPoint: 1000/1000 </p>
+    <button onclick="hidePopup('cert3Popup')" class="mt-4 bg-brown-500 text-white px-4 py-2 rounded hover:bg-brown-600">Close</button>
+  </div>
+  <script src="script.js"></script>
+</body>
+</html>
