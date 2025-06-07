@@ -1,114 +1,26 @@
 // Lấy thẻ canvas và thiết lập ngữ cảnh vẽ
 const canvas = document.getElementById("gameCanvas");
 const ctx = canvas.getContext("2d");
-
-// Hàm điều chỉnh kích thước canvas
-function resizeCanvas() {
-    canvas.width = window.innerWidth;
-    canvas.height = window.innerHeight;
-    // Điều chỉnh vị trí nhân vật và các đối tượng khác khi resize
-    knightY = canvas.height - 250;
-    princessY = canvas.height - 250;
-}
-
-// Thiết lập kích thước canvas ban đầu
-resizeCanvas();
-
-// Xử lý sự kiện resize và orientation change
-window.addEventListener('resize', resizeCanvas);
-window.addEventListener('orientationchange', () => {
-    setTimeout(resizeCanvas, 100); // Đợi một chút để màn hình cập nhật xong
-});
-
-// Điều chỉnh vị trí nút điều khiển trên mobile
-function adjustMobileControls() {
-    const isMobile = window.innerWidth <= 768;
-    const controls = document.querySelectorAll('.control-btn');
-    
-    controls.forEach(btn => {
-        if (isMobile) {
-            btn.style.display = 'flex';
-            btn.style.position = 'fixed';
-            btn.style.zIndex = '1000';
-            btn.style.margin = '10px';
-        } else {
-            btn.style.display = 'none';
-        }
-    });
-
-    // Điều chỉnh vị trí các nút
-    const btnLeft = document.getElementById('btn-left');
-    const btnRight = document.getElementById('btn-right');
-    const btnJump = document.getElementById('btn-jump');
-    const btnAttack = document.getElementById('btn-attack');
-
-    if (isMobile) {
-        // Vị trí nút di chuyển (bên trái màn hình)
-        btnLeft.style.bottom = '20px';
-        btnLeft.style.left = '20px';
-        btnRight.style.bottom = '20px';
-        btnRight.style.left = '120px';
-
-        // Vị trí nút hành động (bên phải màn hình)
-        btnJump.style.bottom = '20px';
-        btnJump.style.right = '120px';
-        btnAttack.style.bottom = '20px';
-        btnAttack.style.right = '20px';
-    }
-}
-
-// Gọi hàm điều chỉnh controls khi load và resize
-window.addEventListener('load', adjustMobileControls);
-window.addEventListener('resize', adjustMobileControls);
-window.addEventListener('orientationchange', () => {
-    setTimeout(adjustMobileControls, 100);
-});
-
-// Load hình ảnh với xử lý lỗi
-function loadImage(src) {
-    return new Promise((resolve, reject) => {
-        const img = new Image();
-        img.onload = () => resolve(img);
-        img.onerror = () => {
-            console.error('Không thể tải hình ảnh:', src);
-            reject(new Error(`Không thể tải hình ảnh: ${src}`));
-        };
-        img.src = src;
-    });
-}
-
-// Khởi tạo các biến hình ảnh
-let background, knightSprites, enemySprites, princessImage, castleImage;
-
-// Hàm load tất cả hình ảnh
-async function loadAllImages() {
-    try {
-        background = await loadImage("./pic/background/background.png");
-        
-        knightSprites = {
-            idle: await loadImage("./pic/character/idle.png"),
-            run: await loadImage("./pic/character/run.png"),
-            jump: await loadImage("./pic/character/jump.png"),
-            attack: await loadImage("./pic/character/attack.png")
-        };
-        
-        enemySprites = {
-            normal: await loadImage("./pic/character/enemy.png"),
-            attack: await loadImage("./pic/character/enemy_attack.png")
-        };
-        
-        princessImage = await loadImage("./pic/character/princess.png");
-        castleImage = await loadImage("./pic/background/castle.png");
-        
-        console.log("Tất cả hình ảnh đã được tải thành công");
-        return true;
-    } catch (error) {
-        console.error("Lỗi khi tải hình ảnh:", error);
-        return false;
-    }
-}
-
-let currentSprite = 'idle'; // Trạng thái hiện tại của nhân vật
+// Thiết lập kích thước canvas theo cửa sổ
+canvas.width = window.innerWidth;
+canvas.height = window.innerHeight;
+// Load hình ảnh
+const background = new Image();
+background.src = "pic/background/background.png";
+const knightImages = {
+    idle: "pic/character/idle.png",
+    run: "pic/character/run.png",
+    jump: "pic/character/jump.png",
+    attack: "pic/character/attack.png"
+};
+const enemyImage = "pic/character/enemy.png";
+const enemyAttackImage = "pic/character/enemy_attack.png";
+const princessImage = new Image();
+princessImage.src = "pic/character/princess.png";  // Đường dẫn ảnh công chúa
+const castleImage = new Image();
+castleImage.src = "pic/background/castle.png"; // Đường dẫn đến hình ảnh lâu đài
+let currentImage = new Image();
+currentImage.src = knightImages.idle;
 // Biến nhân vật
 let knightX = 200;
 let knightY = canvas.height - 250;
@@ -141,19 +53,23 @@ class Enemy {
         this.x = x;
         this.y = y;
         this.speed = Math.random() * 2 + 1;
+        this.image = new Image();
+        this.image.src = enemyImage;
         this.alive = true;
         this.attacking = false;
-        this.direction = -1;
+        this.direction = -1; // Mặc định di chuyển từ phải sang trái
     }
     
     move() {
         if (this.alive && !gameOver) {
             this.x += this.speed * this.direction;
+            // Khi kẻ địch đi qua nhân vật, nó sẽ quay lại
             if (this.x + enemyWidth < knightX && this.direction === -1) {
                 this.direction = 1;
             } else if (this.x > knightX + knightWidth && this.direction === 1) {
                 this.direction = -1;
             }
+            // Chỉ tấn công nếu nó đang gần nhân vật
             if (!this.attacking && Math.abs(this.x - knightX) < 50 && knightHP > 0) {
                 this.attack();
             }
@@ -162,28 +78,24 @@ class Enemy {
     
     attack() {
         this.attacking = true;
+        this.image.src = enemyAttackImage;
         setTimeout(() => {
-            if (this.alive && Math.abs(this.x - knightX) < 50) {
+            if (this.alive && Math.abs(this.x - knightX) < 50) { // Chỉ trừ máu nếu đang trong phạm vi
                 knightHP -= 10;
                 if (knightHP <= 0) {
                     knightHP = 0;
                     endGame();
                 }
             }
+            this.image.src = enemyImage;
             this.attacking = false;
         }, 500);
     }
     
     draw() {
         if (this.alive) {
-            let attackWidth = this.attacking ? enemyWidth + 30 : enemyWidth;
-            ctx.drawImage(
-                this.attacking ? enemySprites.attack : enemySprites.normal,
-                this.x,
-                this.y,
-                attackWidth,
-                enemyHeight
-            );
+            let attackWidth = this.attacking ? enemyWidth + 30 : enemyWidth; // Mở rộng khi tấn công
+            ctx.drawImage(this.image, this.x, this.y, attackWidth, enemyHeight);
         }
     }
 }
@@ -221,33 +133,30 @@ function drawHP() {
 // Xử lý di chuyển
 function moveKnight() {
     if (keys["a"]) {
-        knightX = Math.max(0, knightX - 5);
-        currentSprite = 'run';
+        knightX -= 5;
+        currentImage.src = knightImages.run;
     } else if (keys["d"]) {
-        knightX = Math.min(canvas.width - knightWidth, knightX + 5);
-        currentSprite = 'run';
+        knightX += 5;
+        currentImage.src = knightImages.run;
     } else if (!isJumping && !isAttacking) {
-        currentSprite = 'idle';
+        currentImage.src = knightImages.idle;
     }
 }
 // Xử lý nhảy
 function jump() {
     if (!isJumping && !gameOver) {
         isJumping = true;
-        velocityY = -20;
-        currentSprite = 'jump';
+        velocityY = -20; // Đặt lại giá trị cho velocityY khi nhảy
+        currentImage.src = knightImages.jump;
     }
 }
 // Xử lý tấn công
 function attack() {
     if (!isAttacking && !gameOver) {
         isAttacking = true;
-        currentSprite = 'attack';
+        currentImage.src = knightImages.attack;
         setTimeout(() => {
             isAttacking = false;
-            if (!isJumping) {
-                currentSprite = 'idle';
-            }
         }, 500);
     }
 }
@@ -345,22 +254,21 @@ function update() {
 function draw() {
     if (gameState === "castle") {
         ctx.drawImage(castleImage, 0, 0, canvas.width, canvas.height);
-        return;
+        // Không vẽ hiệp sĩ và công chúa ở đây để chúng biến mất
+        return; // Kết thúc hàm draw để không vẽ lại trò chơi
     }
+    // Phần vẽ trò chơi gốc
     ctx.drawImage(background, 0, 0, canvas.width, canvas.height);
-    
-    // Vẽ nhân vật với sprite hiện tại
     if (isAttacking) {
-        let attackWidth = 245;
-        ctx.drawImage(knightSprites[currentSprite], knightX - 0, knightY, attackWidth, knightHeight);
+        let attackWidth = 245; // Mở rộng chiều rộng ảnh attack
+        ctx.drawImage(currentImage, knightX - 0, knightY, attackWidth, knightHeight);
     } else {
-        ctx.drawImage(knightSprites[currentSprite], knightX, knightY, knightWidth, knightHeight);
+        ctx.drawImage(currentImage, knightX, knightY, knightWidth, knightHeight);
     }
-
     drawHP();
     enemies.forEach((enemy) => enemy.draw());
-    drawEnemyCount();
-    drawPrincess();
+    drawEnemyCount();  // Hiển thị số kẻ địch đã tiêu diệt
+    drawPrincess();  // Hiển thị công chúa nếu đủ điều kiện
 }
 // Vẽ số kẻ địch đã tiêu diệt
 function drawEnemyCount() {
@@ -444,34 +352,6 @@ function closeMessage() {
     // Chuyển đến cảnh mới
     gameState = "castle"; // Đặt trạng thái trò chơi là "castle"
 }
-// Hàm kiểm tra tất cả hình ảnh đã load xong
-function areAllImagesLoaded() {
-    if (!background.complete) return false;
-    if (!castleImage.complete) return false;
-    if (!princessImage.complete) return false;
-    
-    for (let sprite in knightSprites) {
-        if (!knightSprites[sprite].complete) return false;
-    }
-    
-    for (let sprite in enemySprites) {
-        if (!enemySprites[sprite].complete) return false;
-    }
-    
-    return true;
-}
-
-// Hàm bắt đầu game
-async function startGame() {
-    const imagesLoaded = await loadAllImages();
-    if (imagesLoaded) {
-        gameLoop();
-        setInterval(spawnEnemy, 3000);
-    } else {
-        alert("Không thể tải hình ảnh. Vui lòng tải lại trang.");
-    }
-}
-
 // Game loop
 function gameLoop() {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
@@ -479,19 +359,20 @@ function gameLoop() {
     draw();
     requestAnimationFrame(gameLoop);
 }
-
 // Xử lý sự kiện bàn phím
 window.addEventListener("keydown", (e) => {
     keys[e.key] = true;
     if (e.key === " ") jump();
 });
 window.addEventListener("keyup", (e) => keys[e.key] = false);
-
 // Xử lý tấn công bằng chuột
 window.addEventListener("mousedown", attack);
+// Bắt đầu game
+background.onload = () => {
+    gameLoop();
+    setInterval(spawnEnemy, 3000);
+};
 
-// Bắt đầu game khi tất cả hình ảnh đã load xong
-window.onload = startGame;
 
 // Xử lý điều khiển trên điện thoại
 document.getElementById("btn-left").addEventListener("touchstart", () => keys["a"] = true);
@@ -500,6 +381,7 @@ document.getElementById("btn-right").addEventListener("touchstart", () => keys["
 document.getElementById("btn-right").addEventListener("touchend", () => keys["d"] = false);
 document.getElementById("btn-jump").addEventListener("touchstart", jump);
 document.getElementById("btn-attack").addEventListener("touchstart", attack);
+
 // Thiết lập kích thước nút điều khiển
 document.getElementById("btn-left").style.width = "80px";
 document.getElementById("btn-left").style.height = "80px";
